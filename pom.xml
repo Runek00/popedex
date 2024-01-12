@@ -82,12 +82,12 @@
 		<dependency>
 			<groupId>org.webjars.npm</groupId>
 			<artifactId>htmx.org</artifactId>
-			<version>1.9.10</version>
+			<version>LATEST</version>
 		</dependency>
 		<dependency>
 		<groupId>org.webjars.npm</groupId>
 		<artifactId>hyperscript.org</artifactId>
-		<version>0.9.12</version>
+		<version>LATEST</version>
 	</dependency>
 	</dependencies>
 

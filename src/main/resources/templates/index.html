@@ -1,10 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<head th:fragment="header">
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Contacts App</title>
+    <link rel="stylesheet" href="https://the.missing.style/v0.2.0/missing.min.css">
+    <link rel="stylesheet" href="/site.css">
+    <script src="/webjars/htmx.org/1.9.10/dist/htmx.min.js"></script>
+    <script src="/webjars/hyperscript.org/0.9.12/dist/_hyperscript.min.js"></script>
+    <script src="/overflowMenu.js"></script>
+    <script src="https://unpkg.com/alpinejs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/htmx.org/dist/ext/sse.js"></script>
 </head>
-<body>
-
+<body hx-boost="true">
+<header>
+    <h1>
+        It's a contacts app!
+        Like they made in hypermedia.systems!
+    </h1>
+</header>
+<form action="/statues" method="get" class="tool-bar">
+    <label for="search">Search Term</label>
+    <input id="search" type="search" name="q" th:value="${q}"
+           hx-get="/statues"
+           hx-trigger="change, keyup delay:200ms changed"
+           hx-target="tbody"
+           hx-push-url="true"
+           hx-indicator="#spinner"
+           _="on keydown[altKey and code is 'KeyS'] from the window me.focus()"/>
+    <img id="spinner" class="htmx-indicator" src="/img/spinning-circles.svg" alt="Request In Flight..."/>
+    <input type="submit" value="Search"/>
+</form>
+<form>
+    <table>
+        <thead>
+        <tr>
+            <th>Location</th>
+            <th>Unvailing date</th>
+            <th>Pictures</th>
+            <th>Show on map</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody th:insert="~{rows}">
+        </tbody>
+    </table>
+</form>
 </body>
 </html>
