@@ -60,7 +60,7 @@ interface UserRepository extends CrudRepository<User, Long> {
 }
 
 @Controller
-@RequestMapping("/statue")
+@RequestMapping("/statues")
 class StatueController {
 
     private final StatueRepository statueRepository;
@@ -71,7 +71,7 @@ class StatueController {
     }
 
 
-    @GetMapping("/")
+    @GetMapping("")
     String statues(@RequestParam(defaultValue = "0") Integer page, Model model) {
         int pageLength = 10;
         model.addAttribute("page", page);
