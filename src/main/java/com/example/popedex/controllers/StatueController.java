@@ -5,11 +5,9 @@ import com.example.popedex.repositories.StatueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Controller
@@ -46,5 +44,20 @@ class StatueController {
         } else {
             return "no_statue";
         }
+    }
+
+    @GetMapping("/new")
+    String newStatueInput(Model model) {
+        model.addAttribute("statue", new Statue(null,  null, null, null, null, null));
+        return "new_statue";
+    }
+
+    @PostMapping("/new")
+    String addNewStatue(@RequestParam String locationName,
+                        @RequestParam LocalDate unveilingDate,
+                        @RequestParam Boolean exists) {
+        Statue statue = new Statue(null, locationName, unveilingDate, exists, null, true);
+        statueRepository.save(statue);
+        return "redirect:/statues";
     }
 }
