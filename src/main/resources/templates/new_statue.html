@@ -19,7 +19,7 @@
         </p>
         <p>
             <label for="exists">Exists</label>
-            <input name="exists" id="exists" type="checkbox" placeholder="Exists" th:value="${statue.exists()}?: 'false'">
+            <input name="exists" id="exists" type="checkbox" placeholder="Exists" th:checked="${statue.exists()}?: true">
         </p>
         <button>Save</button>
     </fieldset>

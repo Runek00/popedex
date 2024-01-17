@@ -23,12 +23,15 @@ class StatueController {
 
 
     @GetMapping("")
-    String statues(@RequestParam(defaultValue = "0") Integer page, Model model) {
+    String statues(@RequestParam(defaultValue = "0") Integer page,
+                   @RequestParam(defaultValue = "") String q,
+                   @RequestHeader(name = "HX-Trigger", required = false) String trigger,
+                   Model model) {
         int pageLength = 10;
         model.addAttribute("page", page);
         model.addAttribute("statues",
-                statueRepository.findAllPaginated(pageLength, page * pageLength));
-        if (page == 0) {
+                statueRepository.findAllPaginated(q, pageLength, page * pageLength));
+        if (page == 0 && !"search".equals(trigger)) {
             return "index";
         } else {
             return "rows";
@@ -55,7 +58,7 @@ class StatueController {
     @PostMapping("/new")
     String addNewStatue(@RequestParam String locationName,
                         @RequestParam LocalDate unveilingDate,
-                        @RequestParam Boolean exists) {
+                        @RequestParam(required = false, defaultValue = "false") Boolean exists) {
         Statue statue = new Statue(null, locationName, unveilingDate, exists, null, true);
         statueRepository.save(statue);
         return "redirect:/statues";
