@@ -4,6 +4,8 @@ import com.example.popedex.entities.User;
 import com.example.popedex.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,13 +23,24 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping("/new")
+    String newUserInput() {
+        return "new_user";
+    }
+
     @PostMapping("/new")
-    String addNewStatue(@RequestParam String userName,
+    String addNewStatue(@RequestParam String login,
                         @RequestParam String password,
-                        @RequestParam String rePassword,
-                        @RequestParam String email) {
-        User u = new User(null, userName, email, LocalDateTime.now(), true);
-        userService.addUser(u, password, rePassword);
+                        @RequestParam String repassword,
+                        @RequestParam String email,
+                        Model model) {
+        User u = new User(null, login, email, LocalDateTime.now(), true);
+        try {
+            userService.addUser(u, password, repassword);
+        } catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
+            return "new_user";
+        }
         return "redirect:/";
     }
 }

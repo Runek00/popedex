@@ -19,11 +19,11 @@ public class UserService {
     }
 
     @Transactional
-    public void addUser(User u, String password, String rePassword) {
+    public void addUser(User u, String password, String rePassword) throws IllegalArgumentException {
         if (!Objects.equals(password, rePassword)) {
             throw new IllegalArgumentException("password should be the same");
         }
-        if(!userRepository.checkLoginUnique(u.name())) {
+        if(!userRepository.checkLoginUnique(u.login())) {
             throw new IllegalArgumentException("login should be unique");
         }
         userRepository.save(u);
