@@ -7,8 +7,14 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 public interface UserRepository extends CrudRepository<User, Long> {
-    @Query("select u.password = :password from user u where u.name = :name")
-    boolean checkPassword(@Param("password") String password, @Param("name") String name);
+    @Query("select exists(select id from \"user\" u where u.login = :login and u.password = :password and active = true)")
+    boolean checkPassword(@Param("password") String password, @Param("login") String login);
+
+    @Query("select exists (select id from \"user\" u where login = :login)")
+    boolean userExists(@Param("login") String login);
+
+    @Query("select active from \"user\" u where u.login = :login")
+    boolean getActive(@Param("login") String login);
 
     @Query("select count(*) = 0 from \"user\" u where u.login = :login")
     boolean checkLoginUnique(@Param("login") String login);

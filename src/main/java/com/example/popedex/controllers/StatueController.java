@@ -22,7 +22,7 @@ class StatueController {
     }
 
 
-    @GetMapping("")
+    @GetMapping("/")
     String statues(@RequestParam(defaultValue = "0") Integer page,
                    @RequestParam(defaultValue = "") String q,
                    @RequestHeader(name = "HX-Trigger", required = false) String trigger,
@@ -34,7 +34,7 @@ class StatueController {
         if (page == 0 && !"search".equals(trigger)) {
             return "index";
         } else {
-            return "rows";
+            return "statue_rows";
         }
     }
 
