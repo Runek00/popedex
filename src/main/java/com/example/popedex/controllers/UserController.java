@@ -1,6 +1,5 @@
 package com.example.popedex.controllers;
 
-import com.example.popedex.entities.User;
 import com.example.popedex.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,14 +25,13 @@ public class UserController {
     }
 
     @PostMapping("/new")
-    String addNewStatue(@RequestParam String login,
-                        @RequestParam String password,
-                        @RequestParam String repassword,
-                        @RequestParam String email,
-                        Model model) {
-        User u = new User(null, login, email, LocalDateTime.now(), true);
+    String addNewUser(@RequestParam String username,
+                      @RequestParam String password,
+                      @RequestParam String repassword,
+                      @RequestParam String email,
+                      Model model) {
         try {
-            userService.addUser(u, password, repassword);
+            userService.addUser(username, password, email, LocalDateTime.now(), true, repassword);
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
             return "new_user";

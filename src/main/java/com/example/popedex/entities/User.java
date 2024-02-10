@@ -1,8 +1,10 @@
 package com.example.popedex.entities;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
 
-public record User(@Id Long id, String login, String email, LocalDateTime registerTime, boolean active) {
+@Table(name = "users")
+public record User(@Id Long id, String username, String password, String email, LocalDateTime registerTime, boolean enabled) {
 }

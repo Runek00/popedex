@@ -3,9 +3,17 @@ package com.example.popedex.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+
+import javax.sql.DataSource;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -13,25 +21,29 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final CustomAuthenticationProvider customAuthenticationProvider;
-
-    @Autowired
-    public SecurityConfig(CustomAuthenticationProvider customAuthenticationProvider) {
-        this.customAuthenticationProvider = customAuthenticationProvider;
-    }
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/webjars/htmx.org/1.9.10/dist/htmx.min.js",
+                        .requestMatchers(HttpMethod.GET, "/webjars/htmx.org/1.9.10/dist/htmx.min.js",
                                 "/webjars/hyperscript.org/0.9.12/dist/_hyperscript.min.js",
                                 "/login", "/users/new", "/users/new/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/users/new").permitAll()
                         .requestMatchers("/statues/**", "/picture/**", "/users/**", "/secure", "/secure/**").authenticated()
                         .anyRequest().denyAll())
                 .oauth2Login(withDefaults())
                 .formLogin(withDefaults())
-                .authenticationProvider(customAuthenticationProvider)
                 .build();
+    }
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(15);
+    }
+    @Bean
+    public UserDetailsService user(DataSource dataSource) {
+        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
+        return jdbcUserDetailsManager;
     }
 }

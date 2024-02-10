@@ -45,3 +45,4 @@ hs_err_pid*
 replay_pid*
 
 *.pem
+/src/main/resources/application.properties
