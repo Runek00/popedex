@@ -33,6 +33,7 @@ public class UserService {
             throw new IllegalArgumentException("username should be unique");
         }
         userRepository.save(u);
+        userRepository.addUserRole(u.username());
 
     }
 }

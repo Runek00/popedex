@@ -21,6 +21,11 @@ class StatueController {
         this.statueRepository = statueRepository;
     }
 
+    @GetMapping("")
+    String statues(){
+        return "redirect:/statues/";
+    }
+
 
     @GetMapping("/")
     String statues(@RequestParam(defaultValue = "0") Integer page,
@@ -61,6 +66,6 @@ class StatueController {
                         @RequestParam(required = false, defaultValue = "false") Boolean exists) {
         Statue statue = new Statue(null, locationName, unveilingDate, exists, null, true);
         statueRepository.save(statue);
-        return "redirect:/statues";
+        return "redirect:/statues/";
     }
 }

@@ -36,7 +36,7 @@ public class UserController {
             model.addAttribute("error", e.getMessage());
             return "new_user";
         }
-        return "redirect:/";
+        return "redirect:/login";
     }
 
     @GetMapping("/")

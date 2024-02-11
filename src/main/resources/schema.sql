@@ -9,7 +9,7 @@ create table if not exists statue_info.statue(
     active bool not null default true
 );
 
-create table users(
+create table if not exists users(
     id bigserial,
  	username varchar(50) not null primary key,
  	password varchar(200) not null,
@@ -19,9 +19,9 @@ create table users(
  );
 create unique index if not exists id_idx on users (id);
 
- create table authorities (
+ create table if not exists authorities (
  	username varchar(50) not null,
  	authority varchar(50) not null,
  	constraint fk_authorities_users foreign key(username) references users(username)
  );
- create unique index ix_auth_username on authorities (username,authority);
+ create unique index if not exists ix_auth_username on authorities (username,authority);
