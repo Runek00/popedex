@@ -34,6 +34,5 @@ public class UserService {
         }
         userRepository.save(u);
         userRepository.addUserRole(u.username());
-
     }
 }
