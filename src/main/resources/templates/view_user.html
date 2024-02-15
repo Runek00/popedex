@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head th:replace="index :: header">
+    <title>User</title>
+</head>
+<body hx-boost="true">
+<div style="display: flex; justify-content: center; margin-top: 200px;">
+    <div id="parts_inside">
+        <label for="email">Email</label>
+        <input type="email" name="email" readonly id="email">
+        <label for="username">Login</label>
+        <input type="text" name="username" readonly id="username">
+        <label for="register_time">Register time</label>
+        <input type="date" name="register_time" readonly id="register_time">
+        <label for="statues">Statues</label>
+        <input type="number" name="statues" readonly id="statues">
+        <button id="edit" hx-get="users/edit" hx-target="#parts_inside" hx-swap="outerHTML">Edit</button>
+    </div>
+</div>
+</body>
+
+</html>

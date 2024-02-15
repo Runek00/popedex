@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+import java.security.Security;
 import java.time.LocalDateTime;
 
 @Controller
@@ -37,6 +39,26 @@ public class UserController {
             return "new_user";
         }
         return "redirect:/login";
+    }
+
+    @GetMapping("/view")
+    String eitUser(Model model, Principal principal) {
+        var p = principal;
+        // TODO
+        return "view_user";
+
+    }
+
+    @GetMapping("/edit")
+    String editUser(Model model, Principal principal) {
+        // TODO
+        return "edit_user";
+    }
+
+    @PostMapping("/edit")
+    String saveUserChanges(@RequestParam String email) {
+        // TODO
+        return "redirect:/view";
     }
 
     @GetMapping("/")
