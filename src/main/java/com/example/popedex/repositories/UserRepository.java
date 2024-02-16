@@ -17,4 +17,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
     @Modifying
     @Query("insert into authorities values(:username, 'USER')")
     void addUserRole(@Param("username") String username);
+
+    @Query("select * from users where u.username = :username")
+    User findByUsername(@Param("username") String name);
 }

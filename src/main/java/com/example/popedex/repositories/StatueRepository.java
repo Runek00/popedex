@@ -11,4 +11,7 @@ public interface StatueRepository extends CrudRepository<Statue, Long> {
 
     @Query("select * from statue_info.statue where location_name like ('%' || :q || '%') or unveiling_date::text like ('%' || :q || '%') or exists::text like (:q || '%') limit :limit offset :offset")
     List<Statue> findAllPaginated(@Param("q") String q, @Param("limit") Integer limit, @Param("offset") Integer offset);
+
+    @Query("select count(*) from statue_info.user_statue where user_id = :id")
+    int countForUser(@Param("id") Long id);
 }

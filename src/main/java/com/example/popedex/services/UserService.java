@@ -35,4 +35,8 @@ public class UserService {
         userRepository.save(u);
         userRepository.addUserRole(u.username());
     }
+
+    public User getUser(String name) {
+        return userRepository.findByUsername(name);
+    }
 }
