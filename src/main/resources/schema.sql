@@ -25,3 +25,14 @@ create unique index if not exists id_idx on users (id);
  	constraint fk_authorities_users foreign key(username) references users(username)
  );
  create unique index if not exists ix_auth_username on authorities (username,authority);
+
+create table if not exists statue_info.user_statue(
+    id bigserial primary key,
+    user_id int8 not null,
+    statue_id int8 not null,
+    found_date date,
+ 	constraint fk_user_id foreign key(user_id) references users(id),
+ 	constraint fk_statue_id foreign key(statue_id) references statue_info.statue(id)
+);
+
+create unique index if not exists ix_user_statue on statue_info.user_statue(user_id, statue_id);
