@@ -43,7 +43,6 @@ public class SecurityConfig {
     }
     @Bean
     public UserDetailsService user(DataSource dataSource) {
-        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
-        return jdbcUserDetailsManager;
+        return new JdbcUserDetailsManager(dataSource);
     }
 }
