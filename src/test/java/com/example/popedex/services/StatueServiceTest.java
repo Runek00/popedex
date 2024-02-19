@@ -21,11 +21,11 @@ class StatueServiceTest {
 
     @Test
     void countForUser() {
-        assertEquals(statueService.countForUser(1L), 3);
+        assertEquals(3, statueService.countForUser(0L));
     }
 
     @Test
     void countForUserWrong() {
-        assertThrows(AssertionFailedError.class, () -> assertEquals(statueService.countForUser(1L), 5));
+        assertThrows(AssertionFailedError.class, () -> assertEquals(5, statueService.countForUser(1L)));
     }
 }

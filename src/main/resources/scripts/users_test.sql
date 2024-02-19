@@ -1,0 +1,1 @@
+insert into users (id, username, password, email, register_time, enabled) values(0, 'test', 'test', 'test@te.st', now(), true);
