@@ -2,14 +2,12 @@ package com.example.popedex.services;
 
 import com.example.popedex.TestPopedexApplication;
 import org.junit.jupiter.api.Test;
-import org.opentest4j.AssertionFailedError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.jdbc.Sql;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @Import({TestPopedexApplication.class})
@@ -26,6 +24,6 @@ class StatueServiceTest {
 
     @Test
     void countForUserWrong() {
-        assertThrows(AssertionFailedError.class, () -> assertEquals(5, statueService.countForUser(1L)));
+        assertEquals(0, statueService.countForUser(5L));
     }
 }
