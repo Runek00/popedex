@@ -3,15 +3,17 @@ package com.example.popedex.services;
 import com.example.popedex.TestPopedexApplication;
 import com.example.popedex.entities.User;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
 @SpringBootTest
 @Import({TestPopedexApplication.class})
@@ -23,25 +25,35 @@ class UserServiceTest {
 
     @Test
     void addUser() {
-        userService.addUser("name", "password", "email@ema.il", LocalDateTime.now(), true, "password");
+        userService.addUser("name", "password", "email@ema.il", LocalDateTime.now(), "password");
         assertEquals("email@ema.il", userService.getUser("name").email());
     }
 
     @Test
     void addUserShouldThrowOnWrongRepassword() {
-        assertThrows(IllegalArgumentException.class,
-                () -> userService.addUser("name", "password", "email", LocalDateTime.now(), true, "assword"));
+        assertThrowsExactly(IllegalArgumentException.class,
+                () -> userService.addUser("name", "password", "email", LocalDateTime.now(), "assword"),
+                "password should be the same");
     }
 
     @Test
     void addUserShouldThrowOnUsernameNotUnique() {
-        assertThrows(IllegalArgumentException.class,
-                () -> userService.addUser("test", "password", "email", LocalDateTime.now(), true, "password"));
+        assertThrowsExactly(IllegalArgumentException.class,
+                () -> userService.addUser("test", "password", "email", LocalDateTime.now(), "password"),
+                "username should be unique");
     }
 
     @Test
     void getUser() {
         User user = userService.getUser("test");
+        assertEquals("test@te.st", user.email());
+    }
+
+    @Test
+    void getUserFromPrincipalUsernamePassword() {
+        UsernamePasswordAuthenticationToken token = Mockito.mock(UsernamePasswordAuthenticationToken.class);
+        Mockito.when(token.getName()).thenReturn("test");
+        User user = userService.getUserFromPrincipal(token);
         assertEquals("test@te.st", user.email());
     }
 }

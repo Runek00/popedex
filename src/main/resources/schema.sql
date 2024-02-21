@@ -13,9 +13,11 @@ create table if not exists users(
     id bigserial,
  	username varchar(50) not null primary key,
  	password varchar(200) not null,
+ 	visible_name varchar(50) not null,
  	email text,
  	register_time timestamp not null,
- 	enabled boolean not null
+ 	enabled bool not null,
+ 	from_oauth bool not null default false
  );
 create unique index if not exists id_idx on users (id);
 

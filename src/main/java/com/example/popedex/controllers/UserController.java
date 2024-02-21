@@ -36,7 +36,7 @@ public class UserController {
                       @RequestParam String email,
                       Model model) {
         try {
-            userService.addUser(username, password, email, LocalDateTime.now(), true, repassword);
+            userService.addUser(username, password, email, LocalDateTime.now(), repassword);
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
             return "new_user";
@@ -46,15 +46,13 @@ public class UserController {
 
     @GetMapping("/view")
     String showUser(Model model, Principal principal) {
-        String name = principal.getName();
-        User user = userService.getUser(name);
+        User user = userService.getUserFromPrincipal(principal);
         int statues = statueService.countForUser(user.id());
-        model.addAttribute("username", user.username());
+        model.addAttribute("username", user.visibleName());
         model.addAttribute("email", user.email());
         model.addAttribute("register_time", user.registerTime());
         model.addAttribute("statues", statues);
         return "view_user";
-
     }
 
     @GetMapping("/edit")
