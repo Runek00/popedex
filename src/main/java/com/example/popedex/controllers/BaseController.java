@@ -9,12 +9,12 @@ public class BaseController {
 
     @RequestMapping("")
     public String index() {
-        return "redirect:/login";
+        return "redirect:/statues";
     }
 
     @RequestMapping("/")
     public String index2() {
-        return "redirect:/login";
+        return "redirect:/statues";
     }
 
     @RequestMapping("/secure")
