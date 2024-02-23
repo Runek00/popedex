@@ -2,11 +2,13 @@ package com.example.popedex.controllers;
 
 import com.example.popedex.entities.Statue;
 import com.example.popedex.repositories.StatueRepository;
+import com.example.popedex.services.StatueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -14,28 +16,29 @@ import java.util.Optional;
 @RequestMapping("/statues")
 class StatueController {
 
-    private final StatueRepository statueRepository;
+    private final StatueService statueService;
 
     @Autowired
-    public StatueController(StatueRepository statueRepository) {
-        this.statueRepository = statueRepository;
+    public StatueController(StatueService statueRepository) {
+        this.statueService = statueRepository;
     }
 
     @GetMapping("")
     String statues(){
-        return "redirect:/statues/";
+        return "redirect:/statues/my";
     }
 
 
-    @GetMapping("/")
+    @GetMapping("/my")
     String statues(@RequestParam(defaultValue = "0") Integer page,
                    @RequestParam(defaultValue = "") String q,
                    @RequestHeader(name = "HX-Trigger", required = false) String trigger,
-                   Model model) {
+                   Model model,
+                   Principal principal) {
         int pageLength = 10;
         model.addAttribute("page", page);
         model.addAttribute("statues",
-                statueRepository.findAllPaginated(q, pageLength, page * pageLength));
+                statueService.findAllForUser(principal, q, pageLength, page * pageLength));
         if (page == 0 && !"search".equals(trigger)) {
             return "index";
         } else {
@@ -45,7 +48,7 @@ class StatueController {
 
     @GetMapping("/{id}")
     String showStatueInfo(@PathVariable Long id, Model model) {
-        Optional<Statue> statue = statueRepository.findById(id);
+        Optional<Statue> statue = statueService.findById(id);
         if (statue.isPresent()) {
             model.addAttribute("statue", statue.get());
             return "show_statue";
@@ -65,7 +68,7 @@ class StatueController {
                         @RequestParam LocalDate unveilingDate,
                         @RequestParam(required = false, defaultValue = "false") Boolean exists) {
         Statue statue = new Statue(null, locationName, unveilingDate, exists, null, true);
-        statueRepository.save(statue);
+        statueService.save(statue);
         return "redirect:/statues/";
     }
 }
