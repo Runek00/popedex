@@ -24,7 +24,7 @@ public class StatueService {
 
     public List<Statue> findAllForUser(Principal principal, String q, int limit, int offset) {
         User user = userService.getUserFromPrincipal(principal);
-        return this.statueRepository.findAllForUserPaginated(user.id(), q, limit, offset);
+        return statueRepository.findAllForUserPaginated(user.id(), q, limit, offset);
     }
 
     public int countForUser(Long id) {
@@ -37,5 +37,9 @@ public class StatueService {
 
     public Optional<Statue> findById(Long id) {
         return statueRepository.findById(id);
+    }
+
+    public List<Statue> findAllPaginated(String q, int limit, int offset) {
+        return statueRepository.findAllPaginated(q, limit, offset);
     }
 }
