@@ -38,7 +38,26 @@
             <th></th>
         </tr>
         </thead>
-        <tbody th:insert="~{statue_rows}">
+        <tbody th:fragment="statue_rows">
+            <tr th:each="statue: ${statues}">
+                <td>
+                    <input type="checkbox" name="selectedStatueIds" th:value="${statue.id()}" x-model="selected">
+                </td>
+                <td th:text="${statue.locationName()}"/>
+                <td th:text="${statue.unveilingDate()}"/>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr th:if="${statues.size() == 10}">
+                <td colspan="5" style="text-align: center">
+                <span hx-target="closest tr"
+                    hx-trigger="revealed"
+                    hx-swap="outerHTML"
+                    th:hx-get="|/statues?q=${q}&page=${page+1}|">
+                    Load More
+                </span>
+                </td>
+            </tr>
         </tbody>
     </table>
 </form>

@@ -32,9 +32,9 @@ class StatueController {
         model.addAttribute("statues",
                 statueService.findAllPaginated(q, pageLength, page * pageLength));
         if (page == 0 && !"search".equals(trigger)) {
-            return "index";
+            return "statues_list";
         } else {
-            return "statue_rows";
+            return "statues_list :: statue_rows";
         }
     }
 
@@ -49,9 +49,9 @@ class StatueController {
         model.addAttribute("statues",
                 statueService.findAllForUser(principal, q, pageLength, page * pageLength));
         if (page == 0 && !"search".equals(trigger)) {
-            return "index";
+            return "statues_list";
         } else {
-            return "statue_rows";
+            return "statues_list :: statue_rows";
         }
     }
 
@@ -78,6 +78,6 @@ class StatueController {
                         @RequestParam(required = false, defaultValue = "false") Boolean exists) {
         Statue statue = new Statue(null, locationName, unveilingDate, exists, null, true);
         statueService.save(statue);
-        return "redirect:/statues/";
+        return "redirect:/statues";
     }
 }
