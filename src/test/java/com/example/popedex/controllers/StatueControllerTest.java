@@ -41,7 +41,19 @@ class StatueControllerTest {
     }
 
     @Test
-    void myStatues() {
+    @WithMockUser(value = "test", password = "test")
+    void myStatues() throws Exception {
+        mvc.perform(get("/statues/my").param("page", "1"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType("text/html;charset=UTF-8"));
+    }
+
+    @Test
+    @WithMockUser(value = "test", password = "test")
+    void myStatuesMore() throws Exception {
+        mvc.perform(get("/statues/my").param("page", "1"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("text/html;charset=UTF-8"));
     }
 
     @Test

@@ -14,7 +14,7 @@ public interface StatueRepository extends CrudRepository<Statue, Long> {
 
     @Query("""
             select s.* from statue_info.statue s
-            join statue_info.user_statue us
+            join statue_info.user_statue us on us.statue_id = s.id
             where us.user_id = :userId and
             (location_name like ('%' || :q || '%') or unveiling_date::text like ('%' || :q || '%') or exists::text like (:q || '%'))
             limit :limit offset :offset""")
