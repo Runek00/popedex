@@ -57,14 +57,28 @@ class StatueControllerTest {
     }
 
     @Test
-    void showStatueInfo() {
+    @WithMockUser(value = "test", password = "test")
+    void showExistingStatueInfo() throws Exception {
+        mvc.perform(get("/statues/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("text/html;charset=UTF-8"));
     }
 
     @Test
+    @WithMockUser(value = "test", password = "test")
+    void showNotExistingStatueInfo() throws Exception {
+        mvc.perform(get("/statues/-1"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("text/html;charset=UTF-8"));
+    }
+
+    @Test
+    @WithMockUser(value = "test", password = "test")
     void newStatueInput() {
     }
 
     @Test
+    @WithMockUser(value = "test", password = "test")
     void addNewStatue() {
     }
 }
