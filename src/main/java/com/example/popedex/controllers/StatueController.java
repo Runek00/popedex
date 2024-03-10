@@ -2,6 +2,7 @@ package com.example.popedex.controllers;
 
 import com.example.popedex.entities.Statue;
 import com.example.popedex.services.StatueService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -56,12 +57,13 @@ class StatueController {
     }
 
     @GetMapping("/{id}")
-    String showStatueInfo(@PathVariable Long id, Model model) {
+    String showStatueInfo(@PathVariable Long id, HttpServletResponse response, Model model) {
         Optional<Statue> statue = statueService.findById(id);
         if (statue.isPresent()) {
             model.addAttribute("statue", statue.get());
             return "show_statue";
         } else {
+            response.setStatus(404);
             return "no_statue";
         }
     }

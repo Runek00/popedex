@@ -18,6 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Import({TestPopedexApplication.class})
 @Sql(scripts = "/scripts/statue_test.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
+@WithMockUser(value = "test", password = "test")
 class StatueControllerTest {
 
     @Autowired
@@ -25,7 +26,6 @@ class StatueControllerTest {
 
 
     @Test
-    @WithMockUser(value = "test", password = "test")
     void statuesNewPage() throws Exception {
         mvc.perform(get("/statues"))
                 .andExpect(status().isOk())
@@ -33,7 +33,6 @@ class StatueControllerTest {
     }
 
     @Test
-    @WithMockUser(value = "test", password = "test")
     void statuesMore() throws Exception {
         mvc.perform(get("/statues").param("page", "1"))
                 .andExpect(status().isOk())
@@ -41,7 +40,6 @@ class StatueControllerTest {
     }
 
     @Test
-    @WithMockUser(value = "test", password = "test")
     void myStatues() throws Exception {
         mvc.perform(get("/statues/my").param("page", "1"))
             .andExpect(status().isOk())
@@ -49,7 +47,6 @@ class StatueControllerTest {
     }
 
     @Test
-    @WithMockUser(value = "test", password = "test")
     void myStatuesMore() throws Exception {
         mvc.perform(get("/statues/my").param("page", "1"))
                 .andExpect(status().isOk())
@@ -57,7 +54,6 @@ class StatueControllerTest {
     }
 
     @Test
-    @WithMockUser(value = "test", password = "test")
     void showExistingStatueInfo() throws Exception {
         mvc.perform(get("/statues/1"))
                 .andExpect(status().isOk())
@@ -65,20 +61,17 @@ class StatueControllerTest {
     }
 
     @Test
-    @WithMockUser(value = "test", password = "test")
     void showNotExistingStatueInfo() throws Exception {
         mvc.perform(get("/statues/-1"))
-                .andExpect(status().isOk())
+                .andExpect(status().isNotFound())
                 .andExpect(content().contentType("text/html;charset=UTF-8"));
     }
 
     @Test
-    @WithMockUser(value = "test", password = "test")
     void newStatueInput() {
     }
 
     @Test
-    @WithMockUser(value = "test", password = "test")
     void addNewStatue() {
     }
 }
