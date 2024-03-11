@@ -61,7 +61,7 @@ class StatueController {
         Optional<Statue> statue = statueService.findById(id);
         if (statue.isPresent()) {
             model.addAttribute("statue", statue.get());
-            return "show_statue";
+            return "view_statue";
         } else {
             response.setStatus(404);
             return "no_statue";
