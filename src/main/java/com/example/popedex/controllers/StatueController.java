@@ -69,7 +69,7 @@ class StatueController {
     }
 
     @GetMapping("/new")
-    String newStatueInput(Model model) {
+    String newStatueForm(Model model) {
         model.addAttribute("statue", new Statue(null, null, null, null, null, null));
         return "new_statue";
     }
