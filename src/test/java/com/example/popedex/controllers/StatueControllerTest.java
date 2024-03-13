@@ -98,7 +98,8 @@ class StatueControllerTest {
 
         List<Statue> statues = statueService.findAllPaginated("input test location", 3, 0);
         assertEquals(1, statues.size());
-        assertEquals(true, statues.getFirst().exists());
-        assertEquals(LocalDate.now(), statues.getFirst().unveilingDate());
+        Statue statue = statues.getFirst();
+        assertEquals(true, statue.exists());
+        assertEquals(LocalDate.now(), statue.unveilingDate());
     }
 }
