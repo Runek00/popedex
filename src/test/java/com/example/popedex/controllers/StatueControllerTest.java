@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.hamcrest.core.IsNot.not;
+import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -42,49 +44,56 @@ class StatueControllerTest {
     void statuesNewPage() throws Exception {
         mvc.perform(get("/statues"))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType("text/html;charset=UTF-8"));
+                .andExpect(content().contentType("text/html;charset=UTF-8"))
+                .andExpect(content().string(containsString("<small hidden>List of statues</small>")));
     }
 
     @Test
     void statuesMore() throws Exception {
         mvc.perform(get("/statues").param("page", "1"))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType("text/html;charset=UTF-8"));
+                .andExpect(content().contentType("text/html;charset=UTF-8"))
+                .andExpect(content().string(not(containsString("<small hidden>List of statues</small>"))));
     }
 
     @Test
     void myStatues() throws Exception {
-        mvc.perform(get("/statues/my").param("page", "1"))
+        mvc.perform(get("/statues/my"))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType("text/html;charset=UTF-8"));
+                .andExpect(content().contentType("text/html;charset=UTF-8"))
+                .andExpect(content().string(containsString("<small hidden>List of statues</small>")));
     }
 
     @Test
     void myStatuesMore() throws Exception {
         mvc.perform(get("/statues/my").param("page", "1"))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType("text/html;charset=UTF-8"));
+                .andExpect(content().contentType("text/html;charset=UTF-8"))
+                .andExpect(content().string(not(containsString("<small hidden>List of statues</small>"))));
     }
 
     @Test
     void showExistingStatueInfo() throws Exception {
         mvc.perform(get("/statues/1"))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType("text/html;charset=UTF-8"));
+                .andExpect(content().contentType("text/html;charset=UTF-8"))
+                .andExpect(content().string(containsString("<small hidden>Statue view</small>")));
     }
 
     @Test
     void showNotExistingStatueInfo() throws Exception {
         mvc.perform(get("/statues/-1"))
                 .andExpect(status().isNotFound())
-                .andExpect(content().contentType("text/html;charset=UTF-8"));
+                .andExpect(content().contentType("text/html;charset=UTF-8"))
+                .andExpect(content().string(containsString("There is no statue with such name")));
     }
 
     @Test
     void newStatueForm() throws Exception {
         mvc.perform(get("/statues/new"))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType("text/html;charset=UTF-8"));
+                .andExpect(content().contentType("text/html;charset=UTF-8"))
+                .andExpect(content().string(containsString("<small hidden>Add statue</small>")));
     }
 
     @Test
