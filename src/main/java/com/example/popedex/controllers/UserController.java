@@ -3,6 +3,7 @@ package com.example.popedex.controllers;
 import com.example.popedex.entities.User;
 import com.example.popedex.services.StatueService;
 import com.example.popedex.services.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +26,7 @@ public class UserController {
     }
 
     @GetMapping("/new")
-    String newUserInput() {
+    String newUserForm() {
         return "new_user";
     }
 
@@ -34,10 +35,12 @@ public class UserController {
                       @RequestParam String password,
                       @RequestParam String repassword,
                       @RequestParam String email,
+                      HttpServletResponse response,
                       Model model) {
         try {
             userService.addUser(username, password, email, LocalDateTime.now(), repassword);
         } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
             model.addAttribute("error", e.getMessage());
             return "new_user";
         }
