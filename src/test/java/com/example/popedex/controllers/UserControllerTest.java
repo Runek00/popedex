@@ -17,8 +17,7 @@ import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -58,9 +57,8 @@ class UserControllerTest {
                         .param("repassword", "password")
                         .param("email", "name@te.st")
                 )
-                .andExpect(status().isOk())
-                .andExpect(content().contentType("text/html;charset=UTF-8"))
-                .andExpect(content().string(containsString("<small hidden>Add user</small>")));
+                .andExpect(status().isFound())
+                .andExpect(redirectedUrl("/login"));
     }
 
     @Test
@@ -104,6 +102,7 @@ class UserControllerTest {
     void getEditUserForm() throws Exception {
         mvc.perform(get("/users/edit"))
                 .andExpect(status().isOk())
+                .andExpect(content().string("test"))
                 .andExpect(content().contentType("text/html;charset=UTF-8"))
                 .andExpect(content().string(containsString("<small hidden>User edit form</small>")));
     }
@@ -112,7 +111,7 @@ class UserControllerTest {
     void saveUserChanges() throws Exception {
         mvc.perform(post("/users/edit")
                         .param("email", "test2@te.st"))
-                .andExpect(status().isPermanentRedirect());
+                .andExpect(status().isFound());
         User user = userService.getUser("test");
         assertEquals("test2@te.st", user.email());
 
