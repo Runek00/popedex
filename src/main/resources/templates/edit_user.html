@@ -1,12 +1,12 @@
 <form id="parts_inside" action="/users/edit" method="post">
     <label for="email">Email</label>
-    <input type="email" name="email" id="email">
+    <input type="email" name="email" id="email" th:value="${email}">
     <label for="username">Login</label>
-    <input type="text" name="username" id="username">
+    <input type="text" name="username" id="username" th:value="${username}">
     <label for="register_time">Register time</label>
-    <input type="date" name="register_time" id="register_time">
+    <input type="date" name="register_time" id="register_time" th:value="${register_time}" readonly>
     <label for="statues">Statues</label>
-    <input type="number" name="statues" id="statues">
+    <input type="number" name="statues" id="statues" th:value="${statues}" readonly>
     <button id="edit" type="submit">Edit</button>
 </form>
 <small hidden>User edit form</small>

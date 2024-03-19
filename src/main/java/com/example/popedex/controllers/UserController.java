@@ -60,13 +60,28 @@ public class UserController {
 
     @GetMapping("/edit")
     String editUser(Model model, Principal principal) {
-        // TODO
+        User user = userService.getUserFromPrincipal(principal);
+        int statues = statueService.countForUser(user.id());
+        model.addAttribute("username", user.visibleName());
+        model.addAttribute("email", user.email());
+        model.addAttribute("register_time", user.registerTime());
+        model.addAttribute("statues", statues);
         return "edit_user";
     }
 
     @PostMapping("/edit")
-    String saveUserChanges(@RequestParam String email) {
-        // TODO
+    String saveUserChanges(@RequestParam String username,
+                           @RequestParam String email,
+                           Principal principal,
+                           HttpServletResponse response,
+                           Model model) {
+        try {
+            userService.updateUserInfo(principal, username, email);
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
+            model.addAttribute("error", e.getMessage());
+            return "redirect:/edit";
+        }
         return "redirect:/view";
     }
 

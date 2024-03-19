@@ -20,4 +20,8 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     @Query("select * from users u where u.username = :username")
     User findByUsername(@Param("username") String name);
+
+    @Modifying
+    @Query("update users set visible_name = :visibleName, email = :email where username = :username")
+    void updateVisibleNameAndEmail(@Param("username") String username, @Param("visibleName") String visibleName, @Param("email") String email);
 }

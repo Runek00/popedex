@@ -12,7 +12,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -46,7 +45,7 @@ class UserControllerTest {
         mvc.perform(get("/users/new"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("text/html;charset=UTF-8"))
-                .andExpect(content().string(not(containsString("<small hidden>Add user</small>"))));
+                .andExpect(content().string(containsString("<small hidden>Add user</small>")));
     }
 
     @Test
@@ -102,18 +101,21 @@ class UserControllerTest {
     void getEditUserForm() throws Exception {
         mvc.perform(get("/users/edit"))
                 .andExpect(status().isOk())
-                .andExpect(content().string("test"))
                 .andExpect(content().contentType("text/html;charset=UTF-8"))
-                .andExpect(content().string(containsString("<small hidden>User edit form</small>")));
+                .andExpect(content().string(containsString("<small hidden>User edit form</small>")))
+                .andExpect(content().string(containsString("test@te.st")));
     }
 
     @Test
+    @WithMockUser(value = "test2", password = "test2")
     void saveUserChanges() throws Exception {
         mvc.perform(post("/users/edit")
-                        .param("email", "test2@te.st"))
+                        .param("username", "test3")
+                        .param("email", "test3@te.st"))
                 .andExpect(status().isFound());
-        User user = userService.getUser("test");
-        assertEquals("test2@te.st", user.email());
+        User user = userService.getUser("test2");
+        assertEquals("test3@te.st", user.email());
+        assertEquals("test3", user.visibleName());
 
     }
 }

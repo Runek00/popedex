@@ -7,13 +7,13 @@
 <div style="display: flex; justify-content: center; margin-top: 200px;">
     <div id="parts_inside">
         <label for="email">Email</label>
-        <input type="email" name="email" readonly id="email">
+        <input type="email" name="email" readonly id="email" th:value="${email}">
         <label for="username">Login</label>
-        <input type="text" name="username" readonly id="username">
+        <input type="text" name="username" readonly id="username" th:value="${username}">
         <label for="register_time">Register time</label>
-        <input type="date" name="register_time" readonly id="register_time">
+        <input type="date" name="register_time" readonly id="register_time" th:value="${register_time}">
         <label for="statues">Statues</label>
-        <input type="number" name="statues" readonly id="statues">
+        <input type="number" name="statues" readonly id="statues" th:value="${statues}">
         <button id="edit" hx-get="users/edit" hx-target="#parts_inside" hx-swap="outerHTML">Edit</button>
     </div>
 </div>
