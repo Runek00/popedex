@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Import({TestPopedexApplication.class})
 @Sql(scripts = "/scripts/statue_test.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
-@WithMockUser(value = "test", password = "test")
+@WithMockUser(value = "statue_test", password = "statue_test")
 class StatueControllerTest {
 
     @Autowired
