@@ -39,7 +39,6 @@ class StatueControllerTest {
     @Autowired
     private StatueService statueService;
 
-
     @Test
     void statuesNewPage() throws Exception {
         mvc.perform(get("/statues"))

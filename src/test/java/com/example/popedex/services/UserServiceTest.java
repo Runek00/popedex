@@ -32,7 +32,7 @@ class UserServiceTest {
     @Test
     void addUserShouldThrowOnWrongRepassword() {
         assertThrowsExactly(IllegalArgumentException.class,
-                () -> userService.addUser("name", "password", "email", LocalDateTime.now(), "assword"),
+                () -> userService.addUser("name2", "password", "email", LocalDateTime.now(), "assword"),
                 "password should be the same");
     }
 
