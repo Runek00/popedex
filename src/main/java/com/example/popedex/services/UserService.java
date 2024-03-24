@@ -69,7 +69,8 @@ public class UserService {
     public void updateUserInfo(Principal principal, String visibleName, String email) {
         String username = principal.getName();
         if (principal instanceof OAuth2AuthenticationToken) {
-            username = ((OAuth2AuthenticationToken) principal).getPrincipal().getAttribute("id").toString() + ((OAuth2AuthenticationToken) principal).getPrincipal().getAttribute("login").toString();
+            username = ((OAuth2AuthenticationToken) principal).getPrincipal().getAttribute("id").toString() +
+                    ((OAuth2AuthenticationToken) principal).getPrincipal().getAttribute("login").toString();
         }
         userRepository.updateVisibleNameAndEmail(username, visibleName, email);
     }
