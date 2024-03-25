@@ -45,7 +45,7 @@
                 </td>
                 <td th:text="${statue.locationName()}"/>
                 <td th:text="${statue.unveilingDate()}"/>
-                <td></td>
+                <td><img th:src="|/pic/statue/${statue.id}|"></td>
                 <td></td>
             </tr>
             <tr th:if="${statues.size() == 10}">

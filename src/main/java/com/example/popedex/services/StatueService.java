@@ -43,17 +43,10 @@ public class StatueService {
         return statueRepository.findById(id);
     }
 
-    public record StatueWithPicture(Long id, String locationName, LocalDate unveilingDate, byte[] picture){
-        StatueWithPicture(Statue statue, byte[] picture){
-            this(statue.id(), statue.locationName(), statue.unveilingDate(), picture);
-        }
-    }
-    public List<StatueWithPicture> findAllPaginated(String q, int limit, int offset) {
+    public List<Statue> findAllPaginated(String q, int limit, int offset) {
         List<Statue> statues = statueRepository.findAllPaginated(q, limit, offset);
-        Map<Long, byte[]> pictures = pictureService.getRandomPictureForStatueSet(statues);
-        return statues.stream()
-                .map(statue -> new StatueWithPicture(statue, pictures.get(statue.id())))
-                .toList();
+        pictureService.getRandomPictureForStatueSet(statues);
+        return statues;
 
     }
 }

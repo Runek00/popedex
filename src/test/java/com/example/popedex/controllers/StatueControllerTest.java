@@ -104,9 +104,10 @@ class StatueControllerTest {
         mvc.perform(post("/statues/new").params(CollectionUtils.toMultiValueMap(params)))
                 .andExpect(status().is3xxRedirection());
 
-        List<StatueService.StatueWithPicture> statues = statueService.findAllPaginated("input test location", 3, 0);
+        List<Statue> statues = statueService.findAllPaginated("input test location", 3, 0);
         assertEquals(1, statues.size());
-        StatueService.StatueWithPicture statue = statues.getFirst();
+        Statue statue = statues.getFirst();
+        assertEquals(true, statue.exists());
         assertEquals(LocalDate.now(), statue.unveilingDate());
     }
 }
