@@ -28,7 +28,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.GET, "/webjars/htmx.org/1.9.10/dist/htmx.min.js",
                                 "/webjars/hyperscript.org/0.9.12/dist/_hyperscript.min.js",
-                                "/login", "/users/new", "/users/new/**", "/oauth2/authorization/**").permitAll()
+                                "/login", "/users/new", "/users/new/**", "/oauth2/authorization/**", "/styles/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users/new", "/login").permitAll()
                         .requestMatchers("/statues/**", "/picture/**", "/users/**", "/secure", "/secure/**").authenticated()
                         .anyRequest().denyAll())
